@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/templates/master.xhtml">
+			<ui:define name="content">
+				<h1>Usuarios</h1>
+				<h:form id="frm" enctype="multipart/form-data">
+					<h:panelGrid id="pg1" columns="2">
+						<p:inputText value="#{usuarioBean.textoBuscar}"/>
+						<p:commandButton value="Buscar" action="#{usuarioBean.llenarUsuario()}" update="frm:dt"/>
+					</h:panelGrid>
+					<p:dataTable id="dt" var="e" value="#{usuarioBean.lista}">
+						<p:column headerText="Usuario">
+							<p:outputLabel value="#{e.usuario}"/>
+						</p:column>
+						<p:column headerText="Estado">
+							<p:outputLabel value="#{e.estado}"/>
+						</p:column>
+						<p:column headerText="Acciones" exportable="false">
+							<p:commandButton value="Modificar" actionListener="#{usuarioBean.mostrarData(e)}" oncomplete="PF('wdlg').show()" update="frm2:dlg"/>
+						</p:column>
+					</p:dataTable></h:form>
+					<h:form id="frm2" enctype="multipart/form-data">
+					<p:dialog id="dlg" widgetVar="wdlg" header="#{usuarioBean.tipoDialog} #{usuarioBean.usuario.usuario}" modal="true" closeOnEscape="true" resizable="false" draggable="true">
+						<h:panelGrid id="pg2" columns="3">
+							<p:outputLabel for="txtUsuario" value="Usuario"/>
+							<p:inputText id="txtUsuario" value="#{usuarioBean.usuario.usuario}" disabled="true"/>
+							<p:message for="txtUsuario" display="icon"/>
+							
+							<p:outputLabel for="pwActual" value="Contraseña actual"/>
+							<p:password id="pwActual" value=""/>
+							<p:commandButton value="Verificar"/>
+							
+							<p:outputLabel for="pwNuevo" value="Nueva Contraseña"/>
+							<p:password id="pwNuevo" value=""/>
+							<h:column/>
+							
+							<p:outputLabel for="pwRepetir" value="Repetir Contraseña"/>
+							<p:password id="pwRepetir" value="" />
+							<h:column/>
+						
+						</h:panelGrid>
+						<p:commandButton value="Aceptar"/>
+						<p:commandButton value="Cancelar"/>
+					</p:dialog>
+				</h:form>
+			</ui:define>
+	</ui:composition>
+
+</html>
